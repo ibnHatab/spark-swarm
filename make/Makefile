@@ -13,7 +13,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-REGISTRY_HOST=docker.io
+#REGISTRY_HOST=docker.io
+REGISTRY_HOST=skroder
 USERNAME=$(USER)
 NAME=$(shell basename $(PWD))
 
@@ -61,9 +62,9 @@ docker-build: .release
 release: check-status check-release build push
 
 
-push: do-push post-push 
+push: do-push post-push
 
-do-push: 
+do-push:
 	docker push $(IMAGE):$(VERSION)
 	docker push $(IMAGE):latest
 
@@ -73,13 +74,13 @@ showver: .release
 	@. $(RELEASE_SUPPORT); getVersion
 
 tag-patch-release: VERSION := $(shell . $(RELEASE_SUPPORT); nextPatchLevel)
-tag-patch-release: .release tag 
+tag-patch-release: .release tag
 
 tag-minor-release: VERSION := $(shell . $(RELEASE_SUPPORT); nextMinorLevel)
-tag-minor-release: .release tag 
+tag-minor-release: .release tag
 
 tag-major-release: VERSION := $(shell . $(RELEASE_SUPPORT); nextMajorLevel)
-tag-major-release: .release tag 
+tag-major-release: .release tag
 
 patch-release: tag-patch-release release
 	@echo $(VERSION)
